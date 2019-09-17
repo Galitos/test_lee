@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+<mapper namespace="board">
+	<!-- 게시물 목록 -->
+<select id="list" resultType="com.board.test.domain.BoardVO">
+ select
+  bno, title, content, writer, regDate, viewCnt
+ from tbl_board
+</select>
+	<!-- 게시물 작성 -->
+<insert id="write" parameterType="com.board.test.domain.BoardVO">
+ insert into
+  tbl_board(title, content, writer)
+   values(#{title}, #{content}, #{writer})
+</insert>
+    
+<update id="update" parameterType="com.board.test.domain.BoardVO">
+    update 
+        tbl_board
+            set
+                title = #{title},
+                content = #{content}
+            where
+                bno = #{bno}
+</update>
+    
+<delete id="delete" parameterType="int">
+    delete from
+        tbl_board
+            where 
+                bno = #{bno}
+</delete>
+    
+<select id="view" parameterType="int" resultType="com.board.test.domain.BoardVO">
+    select
+        bno, title, content, writer, regDate, viewCnt 
+            from tbl_board
+        where
+            bno = #{bno} 
+</select>
+
+		<!--게시물 총 갯수 구하기  -->
+	<select id="count" resultType="int">
+	select 
+		count(bno)
+	from
+		 tbl_board	
+	</select>
+
+	<!-- 페이징 1 -->
+<select id="listPage" parameterType="hashMap" resultType="com.board.test.domain.BoardVO">
+  select
+    bno, title, content, writer, regDate, viewCnt
+  from 
+    tbl_board
+  limit #{displayPost}, #{postNum}
+</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
